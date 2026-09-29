@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>City Explorer</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <h1 class="logo">City Explorer</h1>
+    <nav class="menu">
+      <a href="#destinatii">Destinații</a>
+      <a href="#planifica">Planifică</a>
+      <a href="#recomandari">Recomandări</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section id="destinatii">
+      <h2>Destinații</h2>
+      <p class="intro">Cinci orașe europene, fiecare cu durata recomandată pentru o primă vizită.</p>
+
+      <div class="cards">
+        <article class="card featured">
+          <h3>Lisabona</h3>
+          <p class="country">Portugalia</p>
+          <p>Cartiere pe dealuri, tramvaie galbene și priveliști spre râul Tejo.</p>
+          <p class="duration">Durată recomandată: <strong>4 zile</strong></p>
+        </article>
+
+        <article class="card">
+          <h3>Praga</h3>
+          <p class="country">Cehia</p>
+          <p>Centru istoric medieval, Podul Carol și castelul de pe deal.</p>
+          <p class="duration">Durată recomandată: <strong>3 zile</strong></p>
+        </article>
+
+        <article class="card">
+          <h3>Barcelona</h3>
+          <p class="country">Spania</p>
+          <p>Arhitectura lui Gaudí, plaje urbane și piețe pline de viață.</p>
+          <p class="duration">Durată recomandată: <strong>4 zile</strong></p>
+        </article>
+
+        <article class="card">
+          <h3>Viena</h3>
+          <p class="country">Austria</p>
+          <p>Palate imperiale, muzee mari și cafenele cu tradiție.</p>
+          <p class="duration">Durată recomandată: <strong>3 zile</strong></p>
+        </article>
+
+        <article class="card">
+          <h3>Amsterdam</h3>
+          <p class="country">Țările de Jos</p>
+          <p>Canale, biciclete peste tot și muzee de artă celebre.</p>
+          <p class="duration">Durată recomandată: <strong>3 zile</strong></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="planifica">
+      <h2>Planifică</h2>
+      <p class="intro">Completează formularul pentru a-ți alege excursia.</p>
+
+      <form class="trip-form">
+        <label for="name">Nume</label>
+        <input id="name" name="name" type="text" placeholder="Dorcea Luca">
+
+        <label for="destination">Destinație</label>
+        <select id="destination" name="destination">
+          <option value="">Alege...</option>
+          <option value="Lisabona">Lisabona</option>
+          <option value="Praga">Praga</option>
+          <option value="Barcelona">Barcelona</option>
+          <option value="Viena">Viena</option>
+          <option value="Amsterdam">Amsterdam</option>
+        </select>
+
+        <label for="days">Număr de zile</label>
+        <input id="days" name="days" type="number" min="1" max="30">
+
+        <button type="submit">Planifică excursia</button>
+      </form>
+    </section>
+
+    <section id="recomandari">
+      <h2>Recomandări</h2>
+      <ul class="tips">
+        <li>Rezervă cazarea din timp, mai ales în sezonul de vară.</li>
+        <li>Cumpără un abonament de transport public pentru toată șederea.</li>
+        <li>Păstrează o zi liberă pentru cartierele mai puțin turistice.</li>
+        <li>Verifică orarul muzeelor: multe sunt închise lunea.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">Dorcea Luca, 2026</footer>
+
+</body>
+</html>
