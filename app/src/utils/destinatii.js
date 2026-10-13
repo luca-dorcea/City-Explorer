@@ -20,3 +20,19 @@ export const numarPeTara = (list) =>
 // sortare descrescătoare după zile, pe o copie a listei
 export const sortDupaZile = (list) =>
   [...list].sort((a, b) => b.zile - a.zile)
+
+// ----- Exercițiul 2: listă nouă, fără a o strica pe cea primită -----
+
+// inversează vizitat doar pentru destinația cu id-ul dat
+export const marcheazaVizitat = (list, id) =>
+  list.map((d) =>
+    d.id === id
+      ? { ...d, vizitat: !d.vizitat } // element nou
+      : d, // element refolosit
+  )
+
+// listă nouă cu destinația adăugată la final
+export const adaugaDestinatie = (list, d) => [...list, d]
+
+// listă nouă fără destinația cu id-ul dat
+export const stergeDestinatie = (list, id) => list.filter((d) => d.id !== id)
