@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { destinatii as destinatiiInitiale } from './data/destinatii.js'
-import { getNevizitate, totalZile, marcheazaVizitat } from './utils/destinatii.js'
+import {
+  getNevizitate, totalZile, marcheazaVizitat, adaugaDestinatie,
+} from './utils/destinatii.js'
 import Rezumat from './components/Rezumat.jsx'
+import FormularDestinatie from './components/FormularDestinatie.jsx'
 import ListaDestinatii from './components/ListaDestinatii.jsx'
 import './App.css'
 
@@ -14,6 +17,11 @@ export default function App() {
     setDestinatii((curent) => marcheazaVizitat(curent, id))
   }
 
+  // primește de la formular destinația nouă și o pune la finalul listei
+  function handleAdd(destinatie) {
+    setDestinatii((curent) => adaugaDestinatie(curent, destinatie))
+  }
+
   return (
     <main>
       <h1>City Explorer</h1>
@@ -23,6 +31,7 @@ export default function App() {
         nevizitate={getNevizitate(destinatii).length}
         zile={totalZile(getNevizitate(destinatii))}
       />
+      <FormularDestinatie onAdd={handleAdd} />
       <ListaDestinatii destinatii={destinatii} onToggle={handleToggle} />
     </main>
   )
