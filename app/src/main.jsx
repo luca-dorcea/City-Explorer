@@ -61,4 +61,6 @@ async function loadOrase() {
 
 loadOrase()
 
-// ===== Laboratorul 3 ===== (se adaugă săptămâna viitoare)
+// ===== Laboratorul 3 =====
+// Interfața se scrie în src/App.jsx și src/components, nu aici.
+// Rezultatul se vede în pagină, nu în consolă.
