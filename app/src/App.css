@@ -155,3 +155,40 @@ button:disabled {
   text-align: center;
   color: #6b7280;
 }
+
+/* ===== Exercițiul 4: panoul de statistici ===== */
+
+.panou {
+  margin-bottom: 1.4rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #d8dbe0;
+  /* corectura 6: fără unitate valoarea e invalidă și declarația se ignoră */
+  border-radius: 10px;
+}
+
+/* corectura 7: a doua regulă .panou h2, cu margin: 0, o anula pe aceasta; s-a șters */
+.panou h2 {
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+  font-size: 1.1rem;
+}
+
+.panou label {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.panou input {
+  width: 70px;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #c3c7cf;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.panou ul {
+  margin: 0.7rem 0 0 0;
+  padding-left: 1.1rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
