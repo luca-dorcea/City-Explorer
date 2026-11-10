@@ -6,6 +6,7 @@ import {
 import Rezumat from './components/Rezumat.jsx'
 import FormularDestinatie from './components/FormularDestinatie.jsx'
 import ListaDestinatii from './components/ListaDestinatii.jsx'
+import ListaOrase from './components/ListaOrase.jsx'
 import './App.css'
 
 export default function App() {
@@ -25,6 +26,8 @@ export default function App() {
   return (
     <main>
       <h1>City Explorer</h1>
+      {/* exemplul din secțiunea 4: orașele de pe serverul de test */}
+      <ListaOrase />
       {/* numerele se calculează din stare la fiecare desenare */}
       <Rezumat
         total={destinatii.length}
