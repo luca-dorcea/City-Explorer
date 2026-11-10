@@ -1,4 +1,6 @@
-const API_URL = 'http://localhost:3001'
+// portul 3001 din lucrare este ocupat pe acest calculator de alt proiect,
+// deci serverul de test rulează pe 3003: npx json-server db.json --port 3003
+const API_URL = 'http://localhost:3003'
 
 // GET /destinatii: lista completă
 export async function getDestinatii() {

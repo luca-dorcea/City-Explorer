@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:3001'
+// același server de test ca în api/destinatii.js, pe portul 3003
+const API_URL = 'http://localhost:3003'
 
 export async function getOrase() {
   const response = await fetch(`${API_URL}/orase`)
