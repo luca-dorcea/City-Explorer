@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getNevizitate, totalZile, adaugaDestinatie } from './utils/destinatii.js'
-import { getDestinatii, patchVizitat } from './api/destinatii.js'
+import { getDestinatii, postDestinatie, patchVizitat } from './api/destinatii.js'
 import Rezumat from './components/Rezumat.jsx'
 import FormularDestinatie from './components/FormularDestinatie.jsx'
 import ListaDestinatii from './components/ListaDestinatii.jsx'
@@ -11,6 +11,8 @@ export default function App() {
   const [destinatii, setDestinatii] = useState([])
   const [incarcare, setIncarcare] = useState(true)
   const [eroare, setEroare] = useState(null)
+  // true cât timp cererea POST este în curs; butonul formularului e dezactivat
+  const [seTrimite, setSeTrimite] = useState(false)
 
   // încărcarea la pornire: lista de dependențe goală, deci o singură dată
   useEffect(() => {
@@ -40,9 +42,18 @@ export default function App() {
     }
   }
 
-  // primește de la formular destinația nouă și o pune la finalul listei
-  function handleAdd(destinatie) {
-    setDestinatii((curent) => adaugaDestinatie(curent, destinatie))
+  // trimite destinația la server; în stare se pune obiectul întors, cu id-ul lui
+  async function handleAdd(destinatie) {
+    setSeTrimite(true)
+
+    try {
+      const salvata = await postDestinatie(destinatie)
+      setDestinatii((curent) => adaugaDestinatie(curent, salvata))
+    } catch (error) {
+      setEroare(error.message)
+    } finally {
+      setSeTrimite(false)
+    }
   }
 
   return (
@@ -60,7 +71,7 @@ export default function App() {
             nevizitate={getNevizitate(destinatii).length}
             zile={totalZile(getNevizitate(destinatii))}
           />
-          <FormularDestinatie onAdd={handleAdd} />
+          <FormularDestinatie onAdd={handleAdd} seTrimite={seTrimite} />
           <ListaDestinatii destinatii={destinatii} onToggle={handleToggle} />
         </>
       )}
