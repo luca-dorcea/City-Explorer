@@ -1,0 +1,42 @@
+const API_URL = 'http://localhost:3001'
+
+// GET /destinatii: lista completă
+export async function getDestinatii() {
+  const response = await fetch(`${API_URL}/destinatii`)
+
+  if (!response.ok) {
+    throw new Error(`Serverul a răspuns cu ${response.status}`)
+  }
+
+  return response.json()
+}
+
+// POST /destinatii: serverul întoarce obiectul salvat, cu id-ul generat de el
+export async function postDestinatie(d) {
+  const response = await fetch(`${API_URL}/destinatii`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(d),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Serverul a răspuns cu ${response.status}`)
+  }
+
+  return response.json()
+}
+
+// PATCH /destinatii/:id: se schimbă doar câmpul vizitat
+export async function patchVizitat(id, vizitat) {
+  const response = await fetch(`${API_URL}/destinatii/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ vizitat }),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Serverul a răspuns cu ${response.status}`)
+  }
+
+  return response.json()
+}
