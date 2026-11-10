@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Exercitiul 5: generat cu node genereaza.js
+db-mare.json

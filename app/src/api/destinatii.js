@@ -2,9 +2,9 @@
 // deci serverul de test rulează pe 3003: npx json-server db.json --port 3003
 const API_URL = 'http://localhost:3003'
 
-// GET /destinatii: lista completă
-export async function getDestinatii() {
-  const response = await fetch(`${API_URL}/destinatii`)
+// GET /destinatii, paginat: întoarce obiectul { pages, items, data, ... }, nu doar lista
+export async function getDestinatii(pagina) {
+  const response = await fetch(`${API_URL}/destinatii?_page=${pagina}&_per_page=20`)
 
   if (!response.ok) {
     throw new Error(`Serverul a răspuns cu ${response.status}`)

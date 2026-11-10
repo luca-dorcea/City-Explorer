@@ -16,13 +16,18 @@ export default function App() {
   const [seTrimite, setSeTrimite] = useState(false)
   // textul din câmpul de căutare
   const [cautare, setCautare] = useState('')
+  // paginarea: pagina curentă și numărul total de pagini, primit de la server
+  const [pagina, setPagina] = useState(1)
+  const [totalPagini, setTotalPagini] = useState(1)
 
-  // încărcarea la pornire: lista de dependențe goală, deci o singură dată
+  // pagina intră în lista de dependențe: la fiecare schimbare pleacă o cerere nouă
   useEffect(() => {
     async function incarca() {
       try {
-        const lista = await getDestinatii()
-        setDestinatii(lista)
+        const rezultat = await getDestinatii(pagina)
+        // răspunsul nu mai este o listă, ci un obiect cu lista în data
+        setDestinatii(rezultat.data)
+        setTotalPagini(rezultat.pages)
       } catch (error) {
         setEroare(error.message)
       } finally {
@@ -31,7 +36,7 @@ export default function App() {
     }
 
     incarca()
-  }, [])
+  }, [pagina])
 
   // întâi modificarea pe server, apoi în stare se pune obiectul întors de el
   async function handleToggle(id) {
@@ -93,6 +98,23 @@ export default function App() {
           {afisate.length > 0 && (
             <ListaDestinatii destinatii={afisate} onToggle={handleToggle} />
           )}
+          <div className="paginare">
+            <button
+              type="button"
+              disabled={pagina === 1}
+              onClick={() => setPagina((p) => p - 1)}
+            >
+              Înapoi
+            </button>
+            <span>pagina {pagina} din {totalPagini}</span>
+            <button
+              type="button"
+              disabled={pagina === totalPagini}
+              onClick={() => setPagina((p) => p + 1)}
+            >
+              Înainte
+            </button>
+          </div>
         </>
       )}
     </main>

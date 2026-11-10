@@ -192,3 +192,14 @@ button:disabled {
   color: #4b5563;
   font-size: 0.95rem;
 }
+
+/* ===== Exercițiul 5: butoanele de paginare, sub listă ===== */
+
+.paginare {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  color: #4b5563;
+}
