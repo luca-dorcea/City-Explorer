@@ -114,3 +114,44 @@ button {
   border-radius: 7px;
   font: inherit;
 }
+
+/* ===== Exercițiul 3d: stările cererii și greșelile din formular ===== */
+
+/* caseta de încărcare: albastru deschis, text albastru închis */
+.stare {
+  padding: 0.8rem 1rem;
+  border-radius: 9px;
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+/* după .stare: schimbă doar culorile, forma se moștenește */
+.stare.eroare {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.formular input.invalid {
+  border-color: #dc2626;
+  background: #fff5f5;
+}
+
+.eroare-camp {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
+button:disabled {
+  background: #a49fc4;
+  cursor: default;
+}
+
+/* caseta pentru lista goală: chenar punctat gri */
+.gol {
+  padding: 1.5rem;
+  border: 1px dashed #c3c7cf;
+  border-radius: 10px;
+  text-align: center;
+  color: #6b7280;
+}

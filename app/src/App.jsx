@@ -4,6 +4,7 @@ import { getDestinatii, postDestinatie, patchVizitat } from './api/destinatii.js
 import Rezumat from './components/Rezumat.jsx'
 import FormularDestinatie from './components/FormularDestinatie.jsx'
 import ListaDestinatii from './components/ListaDestinatii.jsx'
+import Cautare from './components/Cautare.jsx'
 import './App.css'
 
 export default function App() {
@@ -13,6 +14,8 @@ export default function App() {
   const [eroare, setEroare] = useState(null)
   // true cât timp cererea POST este în curs; butonul formularului e dezactivat
   const [seTrimite, setSeTrimite] = useState(false)
+  // textul din câmpul de căutare
+  const [cautare, setCautare] = useState('')
 
   // încărcarea la pornire: lista de dependențe goală, deci o singură dată
   useEffect(() => {
@@ -56,6 +59,13 @@ export default function App() {
     }
   }
 
+  // se filtrează doar lista afișată; rezumatul rămâne calculat din toată starea
+  const text = cautare.trim().toLowerCase()
+  const afisate = destinatii.filter(
+    (d) => d.oras.toLowerCase().includes(text) ||
+      d.tara.toLowerCase().includes(text),
+  )
+
   return (
     <main>
       <h1>City Explorer</h1>
@@ -72,7 +82,17 @@ export default function App() {
             zile={totalZile(getNevizitate(destinatii))}
           />
           <FormularDestinatie onAdd={handleAdd} seTrimite={seTrimite} />
-          <ListaDestinatii destinatii={destinatii} onToggle={handleToggle} />
+          <Cautare valoare={cautare} onChange={setCautare} />
+          {/* întâi: există vreo destinație? abia apoi: a lăsat căutarea ceva? */}
+          {destinatii.length === 0 && (
+            <p className="gol">Nu există nicio destinație. Adaugă prima din formular.</p>
+          )}
+          {destinatii.length > 0 && afisate.length === 0 && (
+            <p className="gol">Niciun rezultat pentru „{cautare.trim()}”.</p>
+          )}
+          {afisate.length > 0 && (
+            <ListaDestinatii destinatii={afisate} onToggle={handleToggle} />
+          )}
         </>
       )}
     </main>
