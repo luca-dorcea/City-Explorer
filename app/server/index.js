@@ -62,6 +62,17 @@ app.post('/api/destinatii', async (req, res) => {
   })
 })
 
+// ----- Exercițiul 5: căutarea după oraș, cu parametru -----
+
+app.get('/api/destinatii/caut', async (req, res) => {
+  const [randuri] = await pool.query(
+    'SELECT id, oras, tara, zile, vizitat FROM destinatii WHERE oras = ?',
+    [req.query.oras ?? ''],
+  )
+
+  res.json(randuri.map(deTrimis))
+})
+
 // ----- Exercițiul 3: marcarea -----
 
 app.patch('/api/destinatii/:id', async (req, res) => {
