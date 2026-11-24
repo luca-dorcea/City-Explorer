@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import { pool } from './db.js'
+import statistici from './rute/statistici.js'
 
 const app = express()
 
@@ -56,6 +57,34 @@ app.post('/api/destinatii', async (req, res) => {
   })
 })
 
+// ----- Exercițiul 3: marcarea -----
+
+app.patch('/api/destinatii/:id', async (req, res) => {
+  const { vizitat } = req.body
+
+  if (typeof vizitat !== 'boolean') {
+    return res.status(400).json({ eroare: 'Câmpul vizitat trebuie să fie true sau false.' })
+  }
+
+  const [rezultat] = await pool.query(
+    'UPDATE destinatii SET vizitat = ? WHERE id = ?',
+    [vizitat, req.params.id],
+  )
+
+  // niciun rând atins: identificatorul nu există
+  if (rezultat.affectedRows === 0) {
+    return res.status(404).json({ eroare: 'Destinația nu există.' })
+  }
+
+  const [randuri] = await pool.query(
+    'SELECT id, oras, tara, zile, vizitat FROM destinatii WHERE id = ?',
+    [req.params.id],
+  )
+
+  res.json(deTrimis(randuri[0]))
+})
+
+app.use('/api/statistici', statistici)
 
 const port = Number(process.env.PORT) || 3000
 

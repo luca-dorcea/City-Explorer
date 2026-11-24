@@ -1,6 +1,5 @@
-// portul 3001 din lucrare este ocupat pe acest calculator de alt proiect,
-// deci serverul de test rulează pe 3003: npx json-server db.json --port 3003
-const API_URL = 'http://localhost:3003'
+// Laboratorul 5: datele vin de la serverul Express propriu, din MariaDB
+const API_URL = 'http://localhost:3000/api'
 
 // GET /destinatii: lista completă
 export async function getDestinatii() {
