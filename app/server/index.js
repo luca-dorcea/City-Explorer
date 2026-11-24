@@ -1,7 +1,9 @@
 import express from 'express'
 import cors from 'cors'
 import { pool } from './db.js'
+import { jurnal } from './jurnal.js'
 import statistici from './rute/statistici.js'
+import raportJurnal from './rute/jurnal.js'
 
 const app = express()
 
@@ -11,6 +13,9 @@ app.use((req, res, next) => {
   next()
 })
 
+// înaintea lui cors(): cors() răspunde singur la OPTIONS, fără next(),
+// deci un jurnal scris după el nu ar vedea cererile de verificare
+app.use(jurnal)
 app.use(cors()) // permite paginii să folosească răspunsul
 app.use(express.json()) // citește corpul cererilor POST și PATCH
 
@@ -85,6 +90,7 @@ app.patch('/api/destinatii/:id', async (req, res) => {
 })
 
 app.use('/api/statistici', statistici)
+app.use('/api/jurnal', raportJurnal)
 
 const port = Number(process.env.PORT) || 3000
 
