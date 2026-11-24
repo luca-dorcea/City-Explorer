@@ -31,6 +31,32 @@ app.all('/api/ecou/:id', (req, res) => {
   res.json({ params: req.params, query: req.query, body: req.body })
 })
 
+// ----- Exercițiul 2: adăugarea unei destinații -----
+
+app.post('/api/destinatii', async (req, res) => {
+  const { oras, tara, zile } = req.body
+
+  // se verifică din nou: validarea din interfață poate fi ocolită
+  const textValid = (v) => typeof v === 'string' && v.trim() !== ''
+  if (!textValid(oras) || !textValid(tara) || !Number.isInteger(zile) || zile < 1 || zile > 30) {
+    return res.status(400).json({ eroare: 'Date invalide.' })
+  }
+
+  const [rezultat] = await pool.query(
+    'INSERT INTO destinatii (oras, tara, zile, vizitat) VALUES (?, ?, ?, ?)',
+    [oras.trim(), tara.trim(), zile, false],
+  )
+
+  res.status(201).json({
+    id: String(rezultat.insertId),
+    oras: oras.trim(),
+    tara: tara.trim(),
+    zile,
+    vizitat: false,
+  })
+})
+
+
 const port = Number(process.env.PORT) || 3000
 
 app.listen(port, () => {
