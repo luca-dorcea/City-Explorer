@@ -1,46 +1,26 @@
 import { useEffect, useState } from 'react'
+import { getStatistici } from '../api/statistici.js'
 
+// Laboratorul 5: cifrele nu se mai calculează în pagină, ci în SQL,
+// pe server, la ruta /api/statistici. O cerere la fiecare tastare.
 export default function PanouStatistici() {
-  const [destinatii, setDestinatii] = useState([])
-  const [incarcare, setIncarcare] = useState(true)
-  const [eroare, setEroare] = useState(null)
   const [prag, setPrag] = useState('3')
+  const [tara, setTara] = useState('')
+  const [cifre, setCifre] = useState(null)
+  const [eroare, setEroare] = useState(null)
 
   useEffect(() => {
     async function incarca() {
       try {
-        const response = await fetch('http://localhost:3003/destinatii')
-
-        if (!response.ok) {
-          throw new Error(`Serverul a răspuns cu ${response.status}`)
-        }
-
-        const date = await response.json()
-        setDestinatii(date)
+        setCifre(await getStatistici(prag, tara.trim()))
+        setEroare(null)
       } catch (err) {
         setEroare(err.message)
-      } finally {
-        // corectura 5: rulează și la eroare, altfel încărcarea nu se oprește
-        setIncarcare(false)
       }
     }
 
     incarca()
-  }, [])
-
-  if (incarcare) {
-    return <p className="stare">Se încarcă statisticile...</p>
-  }
-
-  if (eroare) {
-    return <p className="stare eroare">Statistici indisponibile: {eroare}</p>
-  }
-
-  // corectura 3: „cel puțin” înseamnă >=, altfel Porto (3 zile) lipsește
-  const filtrate = destinatii.filter((d) => d.zile >= Number(prag))
-  // corectura 1: totalul se calculează din aceleași destinații ca numărul și media
-  const totalZile = filtrate.reduce((suma, d) => suma + d.zile, 0)
-  const medie = filtrate.length === 0 ? 0 : totalZile / filtrate.length
+  }, [prag, tara])
 
   return (
     <section className="panou">
@@ -51,22 +31,31 @@ export default function PanouStatistici() {
         <input
           type="number"
           value={prag}
-          // corectura 4: setPrag primește valoarea câmpului, nu evenimentul
           onChange={(e) => setPrag(e.target.value)}
         />{' '}
         zile
+      </label>{' '}
+      <label>
+        Țara{' '}
+        <input
+          className="panou-tara"
+          placeholder="toate"
+          value={tara}
+          onChange={(e) => setTara(e.target.value)}
+        />
       </label>
 
-      {/* corectura 2: condiție booleană, altfel apare mesajul sau cifra 0 */}
-      {filtrate.length === 0 && (
+      {eroare && <p className="stare eroare">Statistici indisponibile: {eroare}</p>}
+
+      {!eroare && cifre && cifre.destinatii === 0 && (
         <p className="gol">Nicio destinație cu cel puțin {prag} zile.</p>
       )}
 
-      {filtrate.length > 0 && (
+      {!eroare && cifre && cifre.destinatii > 0 && (
         <ul>
-          <li>Destinații: {filtrate.length}</li>
-          <li>Total zile: {totalZile}</li>
-          <li>Media: {medie.toFixed(1)} zile</li>
+          <li>Destinații: {cifre.destinatii}</li>
+          <li>Total zile: {cifre.zile}</li>
+          <li>Media: {cifre.medie} zile</li>
         </ul>
       )}
     </section>

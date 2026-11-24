@@ -5,6 +5,7 @@ import Rezumat from './components/Rezumat.jsx'
 import FormularDestinatie from './components/FormularDestinatie.jsx'
 import ListaDestinatii from './components/ListaDestinatii.jsx'
 import Cautare from './components/Cautare.jsx'
+import PanouStatistici from './components/PanouStatistici.jsx'
 import './App.css'
 
 export default function App() {
@@ -16,18 +17,13 @@ export default function App() {
   const [seTrimite, setSeTrimite] = useState(false)
   // textul din câmpul de căutare
   const [cautare, setCautare] = useState('')
-  // paginarea: pagina curentă și numărul total de pagini, primit de la server
-  const [pagina, setPagina] = useState(1)
-  const [totalPagini, setTotalPagini] = useState(1)
 
-  // pagina intră în lista de dependențe: la fiecare schimbare pleacă o cerere nouă
+  // încărcarea la pornire: lista de dependențe goală, deci o singură dată
   useEffect(() => {
     async function incarca() {
       try {
-        const rezultat = await getDestinatii(pagina)
-        // răspunsul nu mai este o listă, ci un obiect cu lista în data
-        setDestinatii(rezultat.data)
-        setTotalPagini(rezultat.pages)
+        const lista = await getDestinatii()
+        setDestinatii(lista)
       } catch (error) {
         setEroare(error.message)
       } finally {
@@ -36,7 +32,7 @@ export default function App() {
     }
 
     incarca()
-  }, [pagina])
+  }, [])
 
   // întâi modificarea pe server, apoi în stare se pune obiectul întors de el
   async function handleToggle(id) {
@@ -88,6 +84,8 @@ export default function App() {
           />
           <FormularDestinatie onAdd={handleAdd} seTrimite={seTrimite} />
           <Cautare valoare={cautare} onChange={setCautare} />
+          {/* cifrele panoului sunt calculate în SQL, la /api/statistici */}
+          <PanouStatistici />
           {/* întâi: există vreo destinație? abia apoi: a lăsat căutarea ceva? */}
           {destinatii.length === 0 && (
             <p className="gol">Nu există nicio destinație. Adaugă prima din formular.</p>
@@ -98,23 +96,6 @@ export default function App() {
           {afisate.length > 0 && (
             <ListaDestinatii destinatii={afisate} onToggle={handleToggle} />
           )}
-          <div className="paginare">
-            <button
-              type="button"
-              disabled={pagina === 1}
-              onClick={() => setPagina((p) => p - 1)}
-            >
-              Înapoi
-            </button>
-            <span>pagina {pagina} din {totalPagini}</span>
-            <button
-              type="button"
-              disabled={pagina === totalPagini}
-              onClick={() => setPagina((p) => p + 1)}
-            >
-              Înainte
-            </button>
-          </div>
         </>
       )}
     </main>

@@ -203,3 +203,9 @@ button:disabled {
   margin-top: 1.2rem;
   color: #4b5563;
 }
+
+/* ===== Laboratorul 5: câmpul de țară din panoul de statistici ===== */
+
+.panou .panou-tara {
+  width: 110px;
+}

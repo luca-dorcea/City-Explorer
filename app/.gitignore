@@ -25,3 +25,6 @@ dist-ssr
 
 # Exercitiul 5: generat cu node genereaza.js
 db-mare.json
+
+# Laboratorul 5: parola bazei de date nu se publica
+server/.env
